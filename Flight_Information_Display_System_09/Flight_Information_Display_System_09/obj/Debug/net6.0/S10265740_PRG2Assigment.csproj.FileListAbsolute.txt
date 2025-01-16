@@ -1,0 +1,5 @@
+D:\D_Drive\PRG2-T08-09\Flight_Information_Display_System_09\Flight_Information_Display_System_09\obj\Debug\net6.0\S10265740_PRG2Assigment.GeneratedMSBuildEditorConfig.editorconfig
+D:\D_Drive\PRG2-T08-09\Flight_Information_Display_System_09\Flight_Information_Display_System_09\obj\Debug\net6.0\S10265740_PRG2Assigment.AssemblyInfoInputs.cache
+D:\D_Drive\PRG2-T08-09\Flight_Information_Display_System_09\Flight_Information_Display_System_09\obj\Debug\net6.0\S10265740_PRG2Assigment.AssemblyInfo.cs
+D:\D_Drive\PRG2-T08-09\Flight_Information_Display_System_09\Flight_Information_Display_System_09\obj\Debug\net6.0\S10265740_PRG2Assigment.csproj.CoreCompileInputs.cache
+D:\D_Drive\PRG2-T08-09\Flight_Information_Display_System_09\Flight_Information_Display_System_09\obj\Debug\net6.0\S10265740_PRG2Assigment.sourcelink.json

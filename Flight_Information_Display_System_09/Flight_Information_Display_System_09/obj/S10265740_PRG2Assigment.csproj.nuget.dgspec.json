@@ -1,0 +1,68 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\D_Drive\\PRG2-T08-09\\Flight_Information_Display_System_09\\Flight_Information_Display_System_09\\S10265740_PRG2Assigment.csproj": {}
+  },
+  "projects": {
+    "D:\\D_Drive\\PRG2-T08-09\\Flight_Information_Display_System_09\\Flight_Information_Display_System_09\\S10265740_PRG2Assigment.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\D_Drive\\PRG2-T08-09\\Flight_Information_Display_System_09\\Flight_Information_Display_System_09\\S10265740_PRG2Assigment.csproj",
+        "projectName": "S10265740_PRG2Assigment",
+        "projectPath": "D:\\D_Drive\\PRG2-T08-09\\Flight_Information_Display_System_09\\Flight_Information_Display_System_09\\S10265740_PRG2Assigment.csproj",
+        "packagesPath": "C:\\Users\\RAVIN\\.nuget\\packages\\",
+        "outputPath": "D:\\D_Drive\\PRG2-T08-09\\Flight_Information_Display_System_09\\Flight_Information_Display_System_09\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\RAVIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
