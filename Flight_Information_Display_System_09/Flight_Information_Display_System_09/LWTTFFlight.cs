@@ -12,8 +12,22 @@ using System.Threading.Tasks;
 
 namespace S10265740_PRG2Assignment
 {
-    public class LWTTFlight
+    public class LWTTFlight : Flight
     {
-       
+        public LWTTFlight(string flightNumber, string origin, string destination, DateTime expectedTime)
+        {
+            FlightNumber = flightNumber;
+            Origin = origin;
+            Destination = destination;
+            ExpectedTime = expectedTime;
+            Status = "On Time";
+        }
+
+        public override double CalculateFees()
+        {
+            // Calculation function to be added
+            return 0; 
+        }
     }
+
 }
