@@ -20,7 +20,13 @@ namespace S10265740_PRG2Assignment
         public DateTime ExpectedTime { get; set; }
         public string Status { get; set; }
 
+
+
+
         public abstract double CalculateFees();
-        public abstract override string ToString();
+        public override string ToString()
+        {
+            return $"FlightNumber: {FlightNumber}, Origin: {Origin}, Destination: {Destination}, ExpectedTime: {ExpectedTime}, Status: {Status}";
+        }
     }
 }
