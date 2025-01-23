@@ -32,8 +32,11 @@ namespace Flight_Information_Display_System_09
 
         public double CalculateFees()
         {
-            // Calculation function to be added
-            return 0;
+            double fee = 300;
+            if (SupportsCFFT) fee += 150;
+            if (SupportsDDJB) fee += 300;
+            if (SupportsLWTT) fee += 500;
+            return fee;
         }
 
         public override string ToString()

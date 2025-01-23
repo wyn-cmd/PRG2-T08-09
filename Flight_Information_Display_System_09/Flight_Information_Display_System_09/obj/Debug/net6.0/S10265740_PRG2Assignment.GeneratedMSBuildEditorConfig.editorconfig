@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = S10265740_PRG2Assignment
-build_property.ProjectDir = C:\Users\Lenovo\Documents\C#\PRG2-T08-09\Flight_Information_Display_System_09\Flight_Information_Display_System_09\
+build_property.ProjectDir = C:\Users\Lenovo\PRG2-T08-09\Flight_Information_Display_System_09\Flight_Information_Display_System_09\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
