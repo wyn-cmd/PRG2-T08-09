@@ -193,6 +193,46 @@ class Program
     }
 
 
+    static void SearchFlightsByDestination(Dictionary<string, Flight> flights)
+    {
+        Console.WriteLine("Format: Tokyo (NRT)");
+        Console.Write("Enter Destination: ");
+        string destination = Console.ReadLine().Trim().ToUpper();
+
+        var matchingFlights = flights.Values
+            .Where(flight => flight.Destination.Equals(destination, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        if (matchingFlights.Count == 0)
+        {
+            Console.WriteLine($"No flights found for destination: {destination}");
+        }
+        else
+        {
+            Console.WriteLine($"Flights to {destination}:");
+            Console.WriteLine("======================================================================");
+            Console.WriteLine(string.Format("{0,-15} {1,-20} {2,-20} {3,-20} {4}",
+                "Flight Number", "Origin", "Destination", "Expected Time", "Special Request"));
+            Console.WriteLine("----------------------------------------------------------------------");
+
+            foreach (var flight in matchingFlights)
+            {
+                Console.WriteLine(string.Format("{0,-15} {1,-20} {2,-20} {3:dd/MM/yyyy HH:mm} {4}",
+                    flight.FlightNumber,
+                    flight.Origin,
+                    flight.Destination,
+                    flight.ExpectedTime,
+                    flight.SpecialRequestCode ?? "None"));
+            }
+
+            Console.WriteLine("======================================================================");
+            Console.WriteLine($"Total Flights Found: {matchingFlights.Count}");
+        }
+        Console.WriteLine();
+    }
+
+
+
     static void CreateNewFlight(Dictionary<string, Flight> flights, string filePath)
     {
         while (true)
@@ -294,6 +334,7 @@ class Program
             Console.WriteLine("7. Display Flight Schedule");
             Console.WriteLine("8. Bulk Assign Boarding Gates");
             Console.WriteLine("9. Calculate Airline Fees");
+            Console.WriteLine("10. Search Flights by Destination");
             Console.WriteLine("0. Exit");
             Console.Write("Please select your option: ");
             string option = Console.ReadLine();
@@ -326,6 +367,9 @@ class Program
                     break;
                 case "9":
                     CalculateAirlineFees(flights, airlines);
+                    break;
+                case "10":
+                    SearchFlightsByDestination(flights);
                     break;
                 case "0":
                     Console.WriteLine("Exiting...");
