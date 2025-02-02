@@ -14,7 +14,8 @@ namespace S10265740_PRG2Assignment
 {
     public class NORMFlight : Flight
     {
-        public NORMFlight(string flightNumber, string origin, string destination, DateTime expectedTime, string status)
+        public NORMFlight(string flightNumber, string origin, string destination, DateTime expectedTime, string status = "On Time", string specialRequestCode = "None", string boardingGate = "Unassigned")
+            : base(flightNumber, origin, destination, expectedTime, status, specialRequestCode, boardingGate)
         {
             FlightNumber = flightNumber;
             Origin = origin;
