@@ -811,26 +811,16 @@ class Program
 
     static void CalculateAirlineFees(Dictionary<string, Flight> flights, Dictionary<string, Airline> airlines)
     {
-        //First check if all flights have boarding gates assigned
-        bool allFlightsAssigned = true;
-        List<string> unassignedFlights = new List<string>();
+        // First check if all flights have boarding gates assigned
+        var unassignedFlights = flights.Values
+            .Where(f => string.IsNullOrEmpty(f.BoardingGate) || f.BoardingGate == "Unassigned")
+            .Select(f => f.FlightNumber)
+            .ToList();
 
-        foreach (var flight in flights.Values)
-        {
-            if (string.IsNullOrEmpty(flight.BoardingGate) || flight.BoardingGate == "Unassigned")
-            {
-                allFlightsAssigned = false;
-                unassignedFlights.Add(flight.FlightNumber);
-            }
-        }
-
-        if (!allFlightsAssigned)
+        if (unassignedFlights.Any())
         {
             Console.WriteLine("\nWARNING: Some flights do not have boarding gates assigned:");
-            foreach (var flightNumber in unassignedFlights)
-            {
-                Console.WriteLine($"- Flight {flightNumber}");
-            }
+            unassignedFlights.ForEach(f => Console.WriteLine($"- Flight {f}"));
             Console.WriteLine("\nPlease assign boarding gates to all flights before calculating fees.");
             return;
         }
@@ -838,146 +828,83 @@ class Program
         // Dictionary to store fees per airline
         Dictionary<string, (decimal baseFees, decimal discounts)> airlineFees = new Dictionary<string, (decimal, decimal)>();
 
-        //Calculate fees for each airline
         foreach (var airline in airlines.Values)
         {
             decimal subtotalFees = 0;
             decimal subtotalDiscounts = 0;
-            int flightCount = 0;
 
-            var airlineFlights = flights.Values.Where(f => f.FlightNumber.StartsWith(airline.Code)).ToList();
-            flightCount = airlineFlights.Count;
+            // Find flights belonging to this airline using airline.Name instead of Code
+            var airlineFlights = flights.Values.Where(f => f.FlightNumber.StartsWith(airline.Name)).ToList();
+
+            if (!airlineFlights.Any())
+            {
+                airlineFees[airline.Name] = (0, 0);
+                continue;
+            }
 
             foreach (var flight in airlineFlights)
             {
-                decimal flightFee = 0;
-
-                //Base fee based on origin/destination
-                if (flight.Origin.Contains("SIN"))
-                    flightFee += 800; // Departure fee
-                else if (flight.Destination.Contains("SIN"))
-                    flightFee += 500; // Arrival fee
-
-                //Boarding gate base fee
-                flightFee += 300;
-
-                //Special request fees
-                switch (flight.SpecialRequestCode)
-                {
-                    case "DDJB":
-                        flightFee += 300; //DDJB fee
-                        break;
-                    case "CFFT":
-                        flightFee += 150; //CFFT fee
-                        break;
-                    case "LWTT":
-                        flightFee += 500; //LWTT fee
-                        break;
-                }
-
+                decimal flightFee = (decimal)flight.CalculateFees();
                 subtotalFees += flightFee;
 
-                //Time-based discount (before 11am or after 9pm)
+                // Apply discounts
                 if (flight.ExpectedTime.Hour < 11 || flight.ExpectedTime.Hour >= 21)
-                {
-                    subtotalDiscounts += 110;
-                }
+                    subtotalDiscounts += 110; // Off-peak discount
 
-                //Origin-based discount
                 if (flight.Origin == "Dubai (DXB)" || flight.Origin == "Bangkok (BKK)" || flight.Origin == "Tokyo (NRT)")
-                {
-                    subtotalDiscounts += 25;
-                }
+                    subtotalDiscounts += 25; // Special origin discount
 
-                //No special request code discount
                 if (string.IsNullOrEmpty(flight.SpecialRequestCode) || flight.SpecialRequestCode == "None")
-                {
-                    subtotalDiscounts += 50;
-                }
+                    subtotalDiscounts += 50; // No special request discount
             }
 
+            int flightCount = airlineFlights.Count;
             int groupsOfThree = flightCount / 3;
             subtotalDiscounts += groupsOfThree * 350;
 
-            //More than 5 flights discount (3% off total before other discounts)
             if (flightCount > 5)
-            {
-                subtotalDiscounts += subtotalFees * 0.03m;
-            }
+                subtotalDiscounts += subtotalFees * 0.03m; // 3% discount if more than 5 flights
 
-            airlineFees[airline.Code] = (subtotalFees, subtotalDiscounts);
+            airlineFees[airline.Name] = (subtotalFees, subtotalDiscounts);
         }
 
+        // Report display
         Console.WriteLine("\n=================================================================");
         Console.WriteLine("Terminal 5 - Daily Airline Fees Report");
         Console.WriteLine("=================================================================");
-        Console.WriteLine(string.Format("{0,-20} {1,15} {2,15} {3,15}",
-            "Airline", "Base Fees", "Discounts", "Final Fee"));
+        Console.WriteLine("{0,-20} {1,15} {2,15} {3,15}", "Airline", "Base Fees", "Discounts", "Final Fee");
         Console.WriteLine("-----------------------------------------------------------------");
 
-        decimal totalFees = 0;
-        decimal totalDiscounts = 0;
+        decimal totalFees = 0, totalDiscounts = 0;
 
         foreach (var airlineFee in airlineFees)
         {
-            var airline = airlines.Values.First(a => a.Code == airlineFee.Key);
+            var airline = airlines.Values.FirstOrDefault(a => a.Name == airlineFee.Key);
+            if (airline == null) continue;
+
             decimal finalFee = airlineFee.Value.baseFees - airlineFee.Value.discounts;
 
-            Console.WriteLine(string.Format("{0,-20} {1,15:C2} {2,15:C2} {3,15:C2}",
-                airline.Name,
-                airlineFee.Value.baseFees,
-                airlineFee.Value.discounts,
-                finalFee));
+            Console.WriteLine("{0,-20} {1,15:C2} {2,15:C2} {3,15:C2}",
+                airline.Code, airlineFee.Value.baseFees, airlineFee.Value.discounts, finalFee);
 
             totalFees += airlineFee.Value.baseFees;
             totalDiscounts += airlineFee.Value.discounts;
         }
 
         decimal finalTotalFees = totalFees - totalDiscounts;
-        decimal discountPercentage = (totalDiscounts / totalFees) * 100;
+        decimal discountPercentage = totalFees > 0 ? (totalDiscounts / totalFees) * 100 : 0;
 
         Console.WriteLine("=================================================================");
         Console.WriteLine($"Total Base Fees: {totalFees:C2}");
         Console.WriteLine($"Total Discounts: {totalDiscounts:C2}");
         Console.WriteLine($"Final Total Fees: {finalTotalFees:C2}");
         Console.WriteLine($"Discount Percentage: {discountPercentage:F2}%");
-        Console.WriteLine("=================================================================\n");
+        Console.WriteLine("=================================================================");
 
-        //Display detailed breakdown of discounts applied
-        Console.WriteLine("\nDiscount Breakdown:");
-        Console.WriteLine("-----------------------------------------------------------------");
-        foreach (var airline in airlines.Values)
-        {
-            var airlineFlights = flights.Values.Where(f => f.FlightNumber.StartsWith(airline.Code)).ToList();
-            if (airlineFlights.Any())
-            {
-                Console.WriteLine($"\n{airline.Name}:");
-                int flightCount = airlineFlights.Count;
-
-                //Groups of 3 flights discount
-                int groupsOfThree = flightCount / 3;
-                if (groupsOfThree > 0)
-                    Console.WriteLine($"- Volume Discount ({groupsOfThree} groups of 3): ${groupsOfThree * 350:F2}");
-
-                //More than 5 flights discount
-                if (flightCount > 5)
-                    Console.WriteLine($"- Over 5 Flights Discount (3%): ${airlineFees[airline.Code].baseFees * 0.03m:F2}");
-
-                //Per-flight discounts
-                int offPeakFlights = airlineFlights.Count(f => f.ExpectedTime.Hour < 11 || f.ExpectedTime.Hour >= 21);
-                if (offPeakFlights > 0)
-                    Console.WriteLine($"- Off-Peak Timing Discount ({offPeakFlights} flights): ${offPeakFlights * 110:F2}");
-
-                int specialOriginFlights = airlineFlights.Count(f =>
-                    f.Origin == "Dubai (DXB)" || f.Origin == "Bangkok (BKK)" || f.Origin == "Tokyo (NRT)");
-                if (specialOriginFlights > 0)
-                    Console.WriteLine($"- Special Origin Discount ({specialOriginFlights} flights): ${specialOriginFlights * 25:F2}");
-
-                int noSpecialRequestFlights = airlineFlights.Count(f =>
-                    string.IsNullOrEmpty(f.SpecialRequestCode) || f.SpecialRequestCode == "None");
-                if (noSpecialRequestFlights > 0)
-                    Console.WriteLine($"- No Special Request Discount ({noSpecialRequestFlights} flights): ${noSpecialRequestFlights * 50:F2}");
-            }
-        }
+        
     }
+
+
+
+
 }

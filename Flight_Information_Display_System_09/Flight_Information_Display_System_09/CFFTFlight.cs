@@ -26,8 +26,11 @@ namespace S10265740_PRG2Assignment
 
         public override double CalculateFees()
         {
-            // Calculation function to be added
-            return 0; 
+            double baseFee = 300.0;
+            double locationFee = (Destination == "Singapore (SIN)") ? 500.0 : (Origin == "Singapore (SIN)") ? 800.0 : 0.0;
+            double specialRequestFee = 150.0; // CFFT Fee
+            return baseFee + locationFee + specialRequestFee;
         }
+
     }
 }
