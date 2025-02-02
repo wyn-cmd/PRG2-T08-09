@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Lenovo\\PRG2-T08-09\\Flight_Information_Display_System_09\\Flight_Information_Display_System_09\\S10265740_PRG2Assignment.csproj": {}
+    "D:\\D_Drive\\csharp\\PRG2-T08-09\\Flight_Information_Display_System_09\\Flight_Information_Display_System_09\\S10265740_PRG2Assignment.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Lenovo\\PRG2-T08-09\\Flight_Information_Display_System_09\\Flight_Information_Display_System_09\\S10265740_PRG2Assignment.csproj": {
+    "D:\\D_Drive\\csharp\\PRG2-T08-09\\Flight_Information_Display_System_09\\Flight_Information_Display_System_09\\S10265740_PRG2Assignment.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lenovo\\PRG2-T08-09\\Flight_Information_Display_System_09\\Flight_Information_Display_System_09\\S10265740_PRG2Assignment.csproj",
+        "projectUniqueName": "D:\\D_Drive\\csharp\\PRG2-T08-09\\Flight_Information_Display_System_09\\Flight_Information_Display_System_09\\S10265740_PRG2Assignment.csproj",
         "projectName": "S10265740_PRG2Assignment",
-        "projectPath": "C:\\Users\\Lenovo\\PRG2-T08-09\\Flight_Information_Display_System_09\\Flight_Information_Display_System_09\\S10265740_PRG2Assignment.csproj",
-        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lenovo\\PRG2-T08-09\\Flight_Information_Display_System_09\\Flight_Information_Display_System_09\\obj\\",
+        "projectPath": "D:\\D_Drive\\csharp\\PRG2-T08-09\\Flight_Information_Display_System_09\\Flight_Information_Display_System_09\\S10265740_PRG2Assignment.csproj",
+        "packagesPath": "C:\\Users\\RAVIN\\.nuget\\packages\\",
+        "outputPath": "D:\\D_Drive\\csharp\\PRG2-T08-09\\Flight_Information_Display_System_09\\Flight_Information_Display_System_09\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\RAVIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
