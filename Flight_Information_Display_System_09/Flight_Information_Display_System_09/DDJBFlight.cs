@@ -15,6 +15,7 @@ namespace S10265740_PRG2Assignment
     public class DDJBFlight : Flight
     {
         public DDJBFlight(string flightNumber, string origin, string destination, DateTime expectedTime)
+            : base(flightNumber, origin, destination, expectedTime, "On Time", "DDJB")
         {
             FlightNumber = flightNumber;
             Origin = origin;

@@ -15,6 +15,7 @@ namespace S10265740_PRG2Assignment
     public class CFFTFlight : Flight
     {
         public CFFTFlight(string flightNumber, string origin, string destination, DateTime expectedTime)
+            : base(flightNumber, origin, destination, expectedTime, "On Time", "CFFT")
         {
             FlightNumber = flightNumber;
             Origin = origin;

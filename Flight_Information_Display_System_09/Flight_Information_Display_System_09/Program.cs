@@ -192,6 +192,92 @@ class Program
         ShowMenu(terminal, boardingGates, flights, airlines, airlinesByCode);
     }
 
+
+    static void CreateNewFlight(Dictionary<string, Flight> flights, string filePath)
+    {
+        while (true)
+        {
+            Console.WriteLine("\nCreating a New Flight...");
+
+            // Prompt for flight details
+            Console.Write("Enter Flight Number: ");
+            string flightNumber = Console.ReadLine().Trim().ToUpper();
+
+            // Ensure flight number does not already exist
+            if (flights.ContainsKey(flightNumber))
+            {
+                Console.WriteLine("Error: A flight with this number already exists.");
+                continue;
+            }
+
+            Console.Write("Enter Origin: ");
+            string origin = Console.ReadLine().Trim();
+
+            Console.Write("Enter Destination: ");
+            string destination = Console.ReadLine().Trim();
+
+            Console.Write("Enter Expected Departure/Arrival Time (dd/MM/yyyy HH:mm): ");
+            DateTime expectedTime;
+            while (!DateTime.TryParse(Console.ReadLine(), out expectedTime))
+            {
+                Console.Write("Invalid date format. Please enter again (dd/MM/yyyy HH:mm): ");
+            }
+
+            // Prompt for Special Request Code
+            Console.Write("Would you like to add a Special Request Code? (Y/N): ");
+            string addSpecialRequest = Console.ReadLine().Trim().ToUpper();
+            string specialRequestCode = "";
+
+            if (addSpecialRequest == "Y")
+            {
+                Console.Write("Enter Special Request Code (DDJB, CFFT, LWTT): ");
+                specialRequestCode = Console.ReadLine().Trim().ToUpper();
+            }
+
+            // Determine flight type
+            Flight newFlight;
+            switch (specialRequestCode)
+            {
+                case "DDJB":
+                    newFlight = new DDJBFlight(flightNumber, origin, destination, expectedTime);
+                    break;
+                case "CFFT":
+                    newFlight = new CFFTFlight(flightNumber, origin, destination, expectedTime);
+                    break;
+                case "LWTT":
+                    newFlight = new LWTTFlight(flightNumber, origin, destination, expectedTime);
+                    break;
+                default:
+                    newFlight = new NORMFlight(flightNumber, origin, destination, expectedTime, "On Time");
+                    break;
+            }
+
+            // Add flight to dictionary
+            flights.Add(flightNumber, newFlight);
+
+            // Append flight details to CSV file
+            using (StreamWriter writer = new StreamWriter(filePath, true))
+            {
+                writer.WriteLine($"{flightNumber},{origin},{destination},{expectedTime:dd/MM/yyyy HH:mm},{specialRequestCode}");
+            }
+
+            Console.WriteLine($"Flight {flightNumber} successfully added!");
+
+            // Ask user if they want to add another flight
+            Console.Write("Would you like to add another flight? (Y/N): ");
+            string response = Console.ReadLine().Trim().ToUpper();
+            if (response != "Y")
+            {
+                Console.WriteLine("Returning to the main menu...");
+                break;
+            }
+        }
+    }
+
+
+
+
+
     static object ShowMenu(Terminal terminal, Dictionary<string, BoardingGate> boardingGates, Dictionary<string, Flight> flights, Dictionary<string, Airline> airlines, Dictionary<string, Airline> airlinesByCode)
     {
         while (true)
@@ -219,10 +305,10 @@ class Program
                     ListBoardingGates(boardingGates);
                     break;
                 case "3":
-                    return null;
+                    AssignBoardingGate(flights, boardingGates);
                     break;
                 case "4":
-                    return null;
+                    CreateNewFlight(flights, "flights.csv");
                     break;
                 case "5":
                     DisplayAirlineFlights(airlines, airlinesByCode, flights);
@@ -231,7 +317,7 @@ class Program
                     ModifyFlightDetails(flights, airlinesByCode);
                     break;
                 case "7":
-                    return null;
+                    DisplayScheduledFlights(flights);
                     break;
                 case "0":
                     Console.WriteLine("Exiting...");
@@ -241,6 +327,34 @@ class Program
                     break;
             }
         }
+    }
+
+
+    static void DisplayScheduledFlights(Dictionary<string, Flight> flights)
+    {
+        if (flights.Count == 0)
+        {
+            Console.WriteLine("No scheduled flights available.");
+            return;
+        }
+
+        // Convert dictionary to a sorted list
+        List<Flight> sortedFlights = new List<Flight>(flights.Values);
+        sortedFlights.Sort(); // Uses CompareTo from Flight class
+
+        // Display formatted flight schedule
+        Console.WriteLine("===============================================================================================");
+        Console.WriteLine("Scheduled Flights for Today - Ordered by Departure/Arrival Time");
+        Console.WriteLine("===============================================================================================");
+        Console.WriteLine("Flight No.  Origin               Destination          Time                     Status     Special Req.      Boarding Gate");
+        Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+
+        foreach (Flight flight in sortedFlights)
+        {
+            Console.WriteLine(flight);
+        }
+
+        Console.WriteLine("===============================================================================================");
     }
 
 
