@@ -180,14 +180,6 @@ class Program
         }
 
 
-        // List flight details
-        //ListAllFlights(flights);
-
-
-        // Assign Boarding Gates
-        // Also need to initalise boarding gates
-        //AssignBoardingGate(flights, boardingGates);
-
         Console.WriteLine();
         ShowMenu(terminal, boardingGates, flights, airlines, airlinesByCode);
     }
@@ -466,16 +458,29 @@ class Program
         Console.WriteLine("===============================================================================================");
         Console.WriteLine("Scheduled Flights for Today - Ordered by Departure/Arrival Time");
         Console.WriteLine("===============================================================================================");
-        Console.WriteLine("Flight No.  Origin               Destination          Time                     Status     Special Req.      Boarding Gate");
+        Console.WriteLine("{0,-10} {1,-25} {2,-20} {3,-20} {4,-15} {5}",
+                          "Flight No.", "Origin", "Destination", "Time", "Status", "Boarding Gate");
         Console.WriteLine("------------------------------------------------------------------------------------------------------------");
 
         foreach (Flight flight in sortedFlights)
         {
-            Console.WriteLine(flight);
+            // Ensure the expected time is displayed consistently in the format "hh:mm tt"
+            string formattedTime = flight.ExpectedTime.ToString("hh:mm tt");
+
+            // Print each flight with proper formatting, excluding SpecialRequest
+            Console.WriteLine("{0,-10} {1,-25} {2,-20} {3,-20} {4,-15} {5}",
+                              flight.FlightNumber,
+                              flight.Origin,
+                              flight.Destination,
+                              formattedTime,
+                              flight.Status,
+                              flight.BoardingGate);
         }
 
         Console.WriteLine("===============================================================================================");
     }
+
+
 
 
 
@@ -495,13 +500,6 @@ class Program
             //unformatted flight number
             string formattedFlightNumber = flight.FlightNumber;
 
-            /*
-            // Format flight number with a space after airline code for cleanliness if you want
-            string formattedFlightNumber = flight.FlightNumber.Length >= 2
-                ? $"{flight.FlightNumber.Substring(0, 2)} {flight.FlightNumber.Substring(2)}"
-                : flight.FlightNumber;
-            */
-
             Console.WriteLine(string.Format("{0,-15} {1,-30} {2,-20} {3,-20} {4:dd/MM/yyyy HH:mm}",
                 formattedFlightNumber,
                 airlineName,
@@ -513,16 +511,26 @@ class Program
         Console.WriteLine();
     }
 
-
+    // Get the airline name from the flight number
     static string GetAirlineName(string flightNumber, Dictionary<string, Airline> airlines)
     {
+        // Extract the first two characters (airline code) from the flight number
         string airlineCode = flightNumber.Substring(0, 2);
-        if (airlines.TryGetValue(airlineCode, out Airline airline))
+
+        // Loop through all airlines in the dictionary to find a match with the airline code
+        foreach (var airline in airlines.Values)
         {
-            return airline.Name;
+            // If the airline code matches the first two characters of the flight number, return the airline name
+            if (airline.Name.Equals(airlineCode, StringComparison.OrdinalIgnoreCase))
+            {
+                return airline.Code;
+            }
         }
+
+        // If no match is found, return "Unknown"
         return "Unknown";
     }
+
 
 
 
