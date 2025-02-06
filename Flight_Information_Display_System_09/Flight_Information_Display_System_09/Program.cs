@@ -663,7 +663,7 @@ class Program
                     // Format time with lowercase am/pm
                     string formattedTime = flight.ExpectedTime.ToString("dd/M/yyyy h:mm:ss tt").ToLower();
 
-                    Console.WriteLine($"{formattedFlightNumber,-18} {selectedAirline.Name,-20} {flight.Origin,-22} {flight.Destination,-22} {formattedTime}");
+                    Console.WriteLine($"{formattedFlightNumber,-18} {selectedAirline.Code,-20} {flight.Origin,-22} {flight.Destination,-22} {formattedTime}");
                 }
             }
 
