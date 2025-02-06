@@ -203,7 +203,7 @@ class Program
         {
             Console.WriteLine($"Flights to {destination}:");
             Console.WriteLine("======================================================================");
-            Console.WriteLine(string.Format("{0,-15} {1,-20} {2,-20} {3,-20} {4}",
+            Console.WriteLine(string.Format("{0,-15} {1,-20} {2,-20} {3,-20}     {4}",
                 "Flight Number", "Origin", "Destination", "Expected Time", "Special Request"));
             Console.WriteLine("----------------------------------------------------------------------");
 
