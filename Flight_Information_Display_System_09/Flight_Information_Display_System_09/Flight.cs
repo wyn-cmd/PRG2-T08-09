@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 // Partner Name : Wynston Wong
 //==========================================================
 
-
 namespace S10265740_PRG2Assignment
 {
+    // Represents an abstract flight entity with common properties and comparison logic
     public abstract class Flight : IComparable<Flight>
     {
         public string FlightNumber { get; set; }
@@ -25,11 +25,11 @@ namespace S10265740_PRG2Assignment
 
         public Flight(string flightNumber, string origin, string destination, DateTime expectedTime, string status, string specialRequestCode = "None", string boardingGate = "Unassigned")
         {
-            FlightNumber = flightNumber;
-            Origin = origin;
-            Destination = destination;
+            FlightNumber = flightNumber ?? throw new ArgumentNullException(nameof(flightNumber));
+            Origin = origin ?? throw new ArgumentNullException(nameof(origin));
+            Destination = destination ?? throw new ArgumentNullException(nameof(destination));
             ExpectedTime = expectedTime;
-            Status = status;
+            Status = status ?? throw new ArgumentNullException(nameof(status));
             SpecialRequestCode = specialRequestCode;
             BoardingGate = boardingGate;
         }
@@ -39,7 +39,8 @@ namespace S10265740_PRG2Assignment
         // Compare flights based on ExpectedTime for sorting
         public int CompareTo(Flight other)
         {
-            return this.ExpectedTime.CompareTo(other.ExpectedTime);
+            if (other == null) return 1;
+            return ExpectedTime.CompareTo(other.ExpectedTime);
         }
 
         public override string ToString()
