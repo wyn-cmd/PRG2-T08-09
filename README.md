@@ -1,4 +1,3 @@
-# PRG2-P08
+# PRG2-T08-09
 
-
-A Programming II assignment. 
+Flight Information Display System assignment for Programming II.
