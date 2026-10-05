@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +27,12 @@ namespace S10265740_PRG2Assignment
 
         public bool AddFlight(Flight flight)
         {
+            // Validate flight before adding to dictionary
+            if (flight == null || string.IsNullOrEmpty(flight.FlightNumber))
+            {
+                return false;
+            }
+
             if (!Flights.ContainsKey(flight.FlightNumber))
             {
                 Flights.Add(flight.FlightNumber, flight);
@@ -37,6 +43,12 @@ namespace S10265740_PRG2Assignment
 
         public bool RemoveFlight(Flight flight)
         {
+            // Validate flight before attempting removal
+            if (flight == null || string.IsNullOrEmpty(flight.FlightNumber))
+            {
+                return false;
+            }
+
             return Flights.Remove(flight.FlightNumber);
         }
 
