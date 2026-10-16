@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 //==========================================================
 // Student Number : S10265740
@@ -22,19 +18,21 @@ namespace S10265740_PRG2Assignment
 
         public override double CalculateFees()
         {
-            double boardingGateBaseFee = 300.0;
-            double additionalFee = 0.0;
+            const double baseFee = 300.0;
+            const double singaporeDestinationFee = 500.0;
+            const double singaporeOriginFee = 800.0;
 
             if (Destination == "Singapore (SIN)")
             {
-                additionalFee = 500.0;
+                return baseFee + singaporeDestinationFee;
             }
-            else if (Origin == "Singapore (SIN)")
+            
+            if (Origin == "Singapore (SIN)")
             {
-                additionalFee = 800.0;
+                return baseFee + singaporeOriginFee;
             }
 
-            return boardingGateBaseFee + additionalFee;
+            return baseFee;
         }
 
         public override string ToString()
